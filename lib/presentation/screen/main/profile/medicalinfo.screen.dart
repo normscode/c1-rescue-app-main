@@ -17,29 +17,26 @@ class MedicalInfoScreen extends StatefulWidget {
   State<MedicalInfoScreen> createState() => _MedicalInfoScreenState();
 }
 
-class _MedicalInfoScreenState extends State<MedicalInfoScreen> { 
-
+class _MedicalInfoScreenState extends State<MedicalInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         return showAlertDialog(
-          context: context,
-          title: "Are you sure you want to go back?",
-          content: "Your changes won't be saved.",
-          onTap: () {
-            Navigator.pop(context, true);
-          },
-          onCancel: () {
-            Navigator.pop(context, false);
-          }
-        );
-
+            context: context,
+            title: "Are you sure you want to go back?",
+            content: "Your changes won't be saved.",
+            onTap: () {
+              Navigator.pop(context, true);
+            },
+            onCancel: () {
+              Navigator.pop(context, false);
+            });
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Edit Medical Information",
-            style: TextStyle(color: Colors.black)),
+              style: TextStyle(color: Colors.black)),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Theme.of(context).primaryColor,
@@ -48,45 +45,40 @@ class _MedicalInfoScreenState extends State<MedicalInfoScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: BlocConsumer<MedicalInfoCubit, MedicalInfoState>(
-              listener: (context, state) {
-                if (state is MedicalInfoSaving) {
-                  EasyLoading.show(
-                    status: 'Saving Medical Information',
-                    dismissOnTap: false,
-                  );
-                } else if (state is MedicalInfoSaved) {
-                  EasyLoading.showSuccess(
-                    'Medical information has been saved successfully!',
-                    dismissOnTap: false,
-                  ).then((value) {
-                    context.router.pop();
-                    Navigator.pop(context, true);
-                  });
-                }
-              },
-              builder: (context, state) {
-                return FutureBuilder<UserEntity?>(
-                  future: context.read<GetselfCubit>().fetchUser(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    }
-                    
-                    return MedicalInfoForm(snapshot.data);
-                    
-                  },
+                listener: (context, state) {
+              if (state is MedicalInfoSaving) {
+                EasyLoading.show(
+                  status: 'Saving Medical Information',
+                  dismissOnTap: false,
                 );
+              } else if (state is MedicalInfoSaved) {
+                EasyLoading.showSuccess(
+                  'Medical information has been saved successfully!',
+                  dismissOnTap: false,
+                ).then((value) {
+                  context.router.pop();
+                  Navigator.pop(context, true);
+                });
               }
-            ),
+            }, builder: (context, state) {
+              return FutureBuilder<UserEntity?>(
+                future: context.read<GetselfCubit>().fetchUser(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  }
+
+                  return MedicalInfoForm(snapshot.data);
+                },
+              );
+            }),
           ),
         ),
       ),
     );
   }
-
-  
 }
 
 class MedicalInfoForm extends StatefulWidget {
@@ -99,7 +91,6 @@ class MedicalInfoForm extends StatefulWidget {
 }
 
 class _MedicalInfoFormState extends State<MedicalInfoForm> {
-
   late dynamic medicalInformation;
 
   final TextEditingController bloodTypeController = TextEditingController();
@@ -119,7 +110,8 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
   List<dynamic> recentIllnessesOrInfections = [];
   List<dynamic> recentTrauma = [];
 
-  final TextEditingController insuranceProviderController = TextEditingController();
+  final TextEditingController insuranceProviderController =
+      TextEditingController();
   final TextEditingController policyNumberController = TextEditingController();
   final TextEditingController groupNumberController = TextEditingController();
 
@@ -128,16 +120,15 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
 
   @override
   void initState() {
-
     medicalInformation = widget.data?.medicalInfo;
-    
+
     if (medicalInformation != null) {
       bloodTypeController.text = medicalInformation.bloodType!;
       heightController.text = medicalInformation.height!;
       weightController.text = medicalInformation.weight!;
 
       setupAndCheckRebuildDuplications();
-      
+
       insuranceProviderController.text = medicalInformation.insuranceProvider!;
       policyNumberController.text = medicalInformation.policyNumber!;
       groupNumberController.text = medicalInformation.groupNumber!;
@@ -154,7 +145,6 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
     return Form(
       child: Column(
         children: [
-          
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
@@ -166,37 +156,35 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
               ],
             ),
           ),
-          
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-
                 MedicalInfoDto medicalInfoDto = MedicalInfoDto(
-                  bloodType: bloodTypeController.text,
-                  height: heightController.text,
-                  weight: weightController.text,
-                  emergencyContacts: contacts,
-                  allergies: allergies,
-                  currentMedications: currentMedications,
-                  chronicConditions: chronicConditions,
-                  currentDiseases: currentDiseases,
-                  pastDiseases: pastDiseases,
-                  pastSurgeries: pastDiseases,
-                  immunizationHistory: immunizationHistory,
-                  familyMedicalHistory: familyMedicalHistory,
-                  primaryCarePhysician: primaryCarePhysician,
-                  recentIllnessesOrInfections: recentIllnessesOrInfections,
-                  recentTrauma: recentTrauma,
-                  insuranceProvider: insuranceProviderController.text,
-                  policyNumber: policyNumberController.text,
-                  groupNumber: groupNumberController.text,
-                  workplace: workplaceController.text,
-                  school: schoolController.text
-                );
+                    bloodType: bloodTypeController.text,
+                    height: heightController.text,
+                    weight: weightController.text,
+                    emergencyContacts: contacts,
+                    allergies: allergies,
+                    currentMedications: currentMedications,
+                    chronicConditions: chronicConditions,
+                    currentDiseases: currentDiseases,
+                    pastDiseases: pastDiseases,
+                    pastSurgeries: pastDiseases,
+                    immunizationHistory: immunizationHistory,
+                    familyMedicalHistory: familyMedicalHistory,
+                    primaryCarePhysician: primaryCarePhysician,
+                    recentIllnessesOrInfections: recentIllnessesOrInfections,
+                    recentTrauma: recentTrauma,
+                    insuranceProvider: insuranceProviderController.text,
+                    policyNumber: policyNumberController.text,
+                    groupNumber: groupNumberController.text,
+                    workplace: workplaceController.text,
+                    school: schoolController.text);
 
-                context.read<MedicalInfoCubit>().editMedicalInfo(medicalInfoDto: medicalInfoDto);
-
+                context
+                    .read<MedicalInfoCubit>()
+                    .editMedicalInfo(medicalInfoDto: medicalInfoDto);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
@@ -244,37 +232,183 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
       if (!primaryCarePhysician.contains(i)) primaryCarePhysician.add(i);
     }
     for (var i in medicalInformation.recentIllnessesOrInfections!) {
-      if (!recentIllnessesOrInfections.contains(i)) recentIllnessesOrInfections.add(i);
+      if (!recentIllnessesOrInfections.contains(i))
+        recentIllnessesOrInfections.add(i);
     }
     for (var i in medicalInformation.recentTrauma!) {
       if (!recentTrauma.contains(i)) recentTrauma.add(i);
     }
   }
 
+  // _buildPersonalInformation() {
+  //   return Column(
+  //     children: [
+  //       _buildTitle("PERSONAL INFORMATION"),
+  //       TextFormField(
+  //         controller: bloodTypeController,
+  //         decoration: const InputDecoration(
+  //             label: Text("Blood Type"), prefixIcon: Icon(Icons.bloodtype)),
+  //       ),
+  //       const SizedBox(height: 10),
+  //       TextFormField(
+  //         controller: heightController,
+  //         decoration: const InputDecoration(
+  //             label: Text("Height (ft)"), prefixIcon: Icon(Icons.height)),
+  //       ),
+  //       const SizedBox(height: 10),
+  //       TextFormField(
+  //         controller: weightController,
+  //         decoration: const InputDecoration(
+  //             label: Text("Weight (kg)"), prefixIcon: Icon(Icons.line_weight)),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // _buildPersonalInformation() {
+  //   List<String> bloodTypes = [
+  //     'A+',
+  //     'A-',
+  //     'B+',
+  //     'B-',
+  //     'AB+',
+  //     'AB-',
+  //     'O+',
+  //     'O-'
+  //   ];
+  //   String selectedBloodType = bloodTypeController.text;
+  //   bool showFirebaseSavingField = false;
+
+  //   // Ensure unique values in the bloodTypes list
+  //   bloodTypes = bloodTypes.toSet().toList();
+
+  //   return Column(
+  //     children: [
+  //       _buildTitle("PERSONAL INFORMATION"),
+
+  //       DropdownButtonFormField<String>(
+  //         value: selectedBloodType,
+  //         onChanged: (String? newValue) {
+  //           setState(() {
+  //             selectedBloodType = newValue!;
+  //             bloodTypeController.text = newValue;
+  //           });
+  //         },
+  //         items: bloodTypes.map<DropdownMenuItem<String>>((String value) {
+  //           return DropdownMenuItem<String>(
+  //             value: value,
+  //             child: Text(value),
+  //           );
+  //         }).toList(),
+  //         decoration: const InputDecoration(
+  //           labelText: 'Blood Type',
+  //           prefixIcon: Icon(Icons.bloodtype),
+  //         ),
+  //       ),
+
+  //       // Hidden TextFormField for Firebase saving
+  //       Visibility(
+  //         visible: showFirebaseSavingField,
+  //         child: TextFormField(
+  //           enabled: false,
+  //           controller: bloodTypeController,
+  //           style: const TextStyle(color: Colors.transparent),
+  //           decoration: const InputDecoration(
+  //             labelText: 'Blood Type',
+  //             labelStyle: TextStyle(color: Colors.transparent),
+  //           ),
+  //         ),
+  //       ),
+
+  //       const SizedBox(height: 10),
+  //       TextFormField(
+  //         controller: heightController,
+  //         decoration: const InputDecoration(
+  //           labelText: "Height (ft)",
+  //           prefixIcon: Icon(Icons.height),
+  //         ),
+  //       ),
+  //       const SizedBox(height: 10),
+  //       TextFormField(
+  //         controller: weightController,
+  //         decoration: const InputDecoration(
+  //           labelText: "Weight (kg)",
+  //           prefixIcon: Icon(Icons.line_weight),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
   _buildPersonalInformation() {
+    List<String> bloodTypes = [
+      'A+',
+      'A-',
+      'B+',
+      'B-',
+      'AB+',
+      'AB-',
+      'O+',
+      'O-'
+    ];
+    String selectedBloodType = bloodTypes.contains(bloodTypeController.text)
+        ? bloodTypeController.text
+        : bloodTypes.first;
+    bool showFirebaseSavingField = false;
+
     return Column(
       children: [
         _buildTitle("PERSONAL INFORMATION"),
 
-        TextFormField(
-          controller: bloodTypeController,
+        DropdownButtonFormField<String>(
+          value: selectedBloodType,
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedBloodType = newValue!;
+              bloodTypeController.text = newValue;
+            });
+          },
+          items: bloodTypes.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
           decoration: const InputDecoration(
-              label: Text("Blood Type"),
-              prefixIcon: Icon(Icons.bloodtype)),
+            labelText: 'Blood Type',
+            prefixIcon: Icon(Icons.bloodtype),
+          ),
         ),
+
+        // Hidden TextFormField for Firebase saving
+        Visibility(
+          visible: showFirebaseSavingField,
+          child: TextFormField(
+            enabled: false,
+            controller: bloodTypeController,
+            style: const TextStyle(color: Colors.transparent),
+            decoration: const InputDecoration(
+              labelText: 'Blood Type',
+              labelStyle: TextStyle(color: Colors.transparent),
+            ),
+          ),
+        ),
+
         const SizedBox(height: 10),
         TextFormField(
           controller: heightController,
           decoration: const InputDecoration(
-              label: Text("Height (ft)"),
-              prefixIcon: Icon(Icons.height)),
+            labelText: "Height (ft)",
+            prefixIcon: Icon(Icons.height),
+          ),
         ),
         const SizedBox(height: 10),
         TextFormField(
           controller: weightController,
           decoration: const InputDecoration(
-              label: Text("Weight (kg)"),
-              prefixIcon: Icon(Icons.line_weight)),
+            labelText: "Weight (kg)",
+            prefixIcon: Icon(Icons.line_weight),
+          ),
         ),
       ],
     );
@@ -283,7 +417,8 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
   _buildEmergencyContact() {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: _buildListInfo("Emergency Contact Numbers", contacts, const Icon(Icons.contact_emergency)),
+      child: _buildListInfo("Emergency Contact Numbers", contacts,
+          const Icon(Icons.contact_emergency)),
     );
   }
 
@@ -291,18 +426,30 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
     return Column(
       children: [
         _buildTitle("Medical History"),
-
-        _buildListInfo("Allergies", allergies, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Current Medications", currentMedications, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Chronic Conditions", chronicConditions, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Current Diseases", currentDiseases, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Past Diseases", pastDiseases, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Past Surgeries", pastSurgeries, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Immunization History", immunizationHistory, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Family Medical History", familyMedicalHistory, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Primary Care Physician", primaryCarePhysician, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Recent Illnesses or Infections", recentIllnessesOrInfections, const Icon(Icons.medical_information_sharp)),
-        _buildListInfo("Recent Trauma", recentTrauma, const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Allergies", allergies,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Current Medications", currentMedications,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Chronic Conditions", chronicConditions,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Current Diseases", currentDiseases,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Past Diseases", pastDiseases,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Past Surgeries", pastSurgeries,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Immunization History", immunizationHistory,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Family Medical History", familyMedicalHistory,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Primary Care Physician", primaryCarePhysician,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo(
+            "Recent Illnesses or Infections",
+            recentIllnessesOrInfections,
+            const Icon(Icons.medical_information_sharp)),
+        _buildListInfo("Recent Trauma", recentTrauma,
+            const Icon(Icons.medical_information_sharp)),
         const SizedBox(height: 10),
       ],
     );
@@ -312,7 +459,6 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
     return Column(
       children: [
         _buildTitle("INSURANCE INFORMATION"),
-
         const SizedBox(height: 10),
         TextFormField(
           controller: insuranceProviderController,
@@ -320,21 +466,17 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
               label: Text("Insurance Provider"),
               prefixIcon: Icon(Icons.safety_check)),
         ),
-
         const SizedBox(height: 10),
         TextFormField(
           controller: policyNumberController,
           decoration: const InputDecoration(
-              label: Text("Policy Number"),
-              prefixIcon: Icon(Icons.numbers)),
+              label: Text("Policy Number"), prefixIcon: Icon(Icons.numbers)),
         ),
-
         const SizedBox(height: 10),
         TextFormField(
           controller: groupNumberController,
           decoration: const InputDecoration(
-              label: Text("Group Number"),
-              prefixIcon: Icon(Icons.group_work)),
+              label: Text("Group Number"), prefixIcon: Icon(Icons.group_work)),
         ),
       ],
     );
@@ -343,64 +485,58 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
   _buildTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Text(title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20
-        ),
+      child: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
     );
   }
 
   _buildListInfo(String editType, List<dynamic> where, Icon icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(editType,
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              editType,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
-          ),
-          const SizedBox(height: 3),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: where.length,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, i) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("• ${where[i]}",
-                      style: const TextStyle(
-                        fontSize: 16
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          where.removeAt(i);
-                        });
-                      },
-                      child: const Icon(Icons.delete),
-                    )
-                  ],
-                )
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              context.router
-                .push<dynamic>(AddToListRoute(editType: editType))
-                .then((result) {
-
+            const SizedBox(height: 3),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: where.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, i) {
+                return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "• ${where[i]}",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              where.removeAt(i);
+                            });
+                          },
+                          child: const Icon(Icons.delete),
+                        )
+                      ],
+                    ));
+              },
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                context.router
+                    .push<dynamic>(AddToListRoute(editType: editType))
+                    .then((result) {
                   if (result == null) return;
 
                   if (result.isNotEmpty) {
@@ -408,18 +544,15 @@ class _MedicalInfoFormState extends State<MedicalInfoForm> {
                       where.add(result!);
                     });
                   }
-              });
-            },
-            child: IgnorePointer(
-              child: TextField(
-                decoration: InputDecoration(
-                    label: Text("Add $editType")),
+                });
+              },
+              child: IgnorePointer(
+                child: TextField(
+                  decoration: InputDecoration(label: Text("Add $editType")),
+                ),
               ),
             ),
-          ),
-          
-        ],
-      )
-    );
+          ],
+        ));
   }
 }

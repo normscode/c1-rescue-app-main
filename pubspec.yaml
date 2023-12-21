@@ -73,6 +73,8 @@ dependencies:
   loading_animation_widget: ^1.2.0+4
   dio: ^5.4.0
   all_sensors: ^0.4.2
+  mailer: ^6.0.1
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -114,6 +116,7 @@ flutter:
     - assets/images/dashboard_images/
     - assets/images/profile_images/
     - assets/images/help_images/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ralert/config/routes/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,44 +32,45 @@ void main() async {
 
   await initializeDependencies();
   initializeServices();
+  await dotenv.load(fileName: ".env");
   runApp(App());
 }
 
 class App extends StatelessWidget {
   App({super.key});
-  
+
   final appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<UsercheckCubit>()..onUsercheck()),
-        BlocProvider(create: (context) => sl<MotionCubit>()),
-        BlocProvider(create: (context) => sl<AuthCubit>()),
-        BlocProvider(create: (context) => sl<GetselfCubit>()),
-        BlocProvider(create: (context) => sl<LatLngCubit>()),
-        BlocProvider(create: (context) => sl<GenderCubit>()),
-        BlocProvider(create: (context) => sl<EmergencyCubit>()),
-        BlocProvider(create: (context) => sl<RadarCubit>()),
-        BlocProvider(create: (context) => sl<GeocodingCubit>()),
-        BlocProvider(create: (context) => sl<EmergencyLiveCubit>()),
-        BlocProvider(create: (context) => sl<EditProfileCubit>()),
-        BlocProvider(create: (context) => sl<MedicalInfoCubit>()),
-        BlocProvider(create: (context) => sl<EmergencyListCubit>()),
-        BlocProvider(create: (context) => sl<StorageImageCubit>()),
-        BlocProvider(create: (context) => sl<VerificationProcessCubit>()),
-        BlocProvider(create: (context) => sl<VerificationCubit>()),
-        BlocProvider(create: (context) => sl<AdminCubit>()),
-      ],
-      child: MaterialApp.router(
-        title: "Ralert",
-        routerConfig: appRouter.config(),
-        debugShowCheckedModeBanner: false,
-        theme: TAppTheme.lightTheme,
-        themeMode: ThemeMode.system,
-        builder: EasyLoading.init(),
-      )
-    );
+        providers: [
+          BlocProvider(
+              create: (context) => sl<UsercheckCubit>()..onUsercheck()),
+          BlocProvider(create: (context) => sl<MotionCubit>()),
+          BlocProvider(create: (context) => sl<AuthCubit>()),
+          BlocProvider(create: (context) => sl<GetselfCubit>()),
+          BlocProvider(create: (context) => sl<LatLngCubit>()),
+          BlocProvider(create: (context) => sl<GenderCubit>()),
+          BlocProvider(create: (context) => sl<EmergencyCubit>()),
+          BlocProvider(create: (context) => sl<RadarCubit>()),
+          BlocProvider(create: (context) => sl<GeocodingCubit>()),
+          BlocProvider(create: (context) => sl<EmergencyLiveCubit>()),
+          BlocProvider(create: (context) => sl<EditProfileCubit>()),
+          BlocProvider(create: (context) => sl<MedicalInfoCubit>()),
+          BlocProvider(create: (context) => sl<EmergencyListCubit>()),
+          BlocProvider(create: (context) => sl<StorageImageCubit>()),
+          BlocProvider(create: (context) => sl<VerificationProcessCubit>()),
+          BlocProvider(create: (context) => sl<VerificationCubit>()),
+          BlocProvider(create: (context) => sl<AdminCubit>()),
+        ],
+        child: MaterialApp.router(
+          title: "Ralert",
+          routerConfig: appRouter.config(),
+          debugShowCheckedModeBanner: false,
+          theme: TAppTheme.lightTheme,
+          themeMode: ThemeMode.system,
+          builder: EasyLoading.init(),
+        ));
   }
 }
