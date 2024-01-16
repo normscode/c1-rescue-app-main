@@ -4,7 +4,7 @@ import 'package:ralert/domain/entity/motion.entity.dart';
 import 'package:ralert/services/background_service.dart';
 
 CrashMotion? checkCarCrash(value, recordKeeper) {
-  if (value.x > 80 && value.y > 80) {
+  if (value.x > 40 && value.y > 40) {
     MotionEntity motionData = MotionEntity(
         dateTime: DateTime.now(), acceleration: recordKeeper.value);
 
