@@ -1,6 +1,6 @@
-# ralert
+# Ralert App Thesis Project
 
-A new Flutter project.
+A automated rescue alert application developed using Flutter, Firebase and third party libraries.
 
 ## Getting Started
 
